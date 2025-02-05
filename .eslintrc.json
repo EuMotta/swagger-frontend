@@ -25,12 +25,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "react-hooks",
-    "import-helpers"
-  ],
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "import-helpers"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -43,10 +38,7 @@
       {
         "newlinesBetween": "always",
         "groups": [
-          [
-            "/^react/",
-            "/^next/"
-          ],
+          ["/^react/", "/^next/"],
           "module",
           "/^@shared/",
           "absolute",
@@ -57,11 +49,7 @@
           "/^store/",
           "/^styles/",
           "/^templates/",
-          [
-            "parent",
-            "sibling",
-            "index"
-          ]
+          ["parent", "sibling", "index"]
         ],
         "alphabetize": {
           "order": "asc",
