@@ -1,20 +1,24 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import * as React from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
+
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui/form';
+import { useCreateUser } from './use-login-user';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -32,107 +36,78 @@ interface LoginFormData {
 }
 
 export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<LoginFormData>({
+  const form = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
   });
 
-  const router = useRouter();
-
-  const {
-    mutateAsync: loginUser,
-    isPending: isPendingLogin,
-  }: UseMutationResult<any, Error, LoginFormData> = useMutation({
-    mutationFn: async (data: LoginFormData) => {
-      const result = await signIn('credentials', {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      });
-
-      console.log('Login result:', result);
-
-      if (!result?.ok) {
-        throw new Error(result.error);
-      }
-
-      return result;
-    },
-
-    mutationKey: ['login'],
-    onSuccess: () => {
-      reset();
-      // router.push('/chat');
-      toast.success('Login realizado com sucesso! Encaminhando...');
-    },
-    onError: (error) => {
-      // reset();
-      // router.push('/chat');
-      toast.error('ERRRR', error.message);
-    },
-  });
-
-  const onSubmit = async (data: LoginFormData) => {
-    try {
-      await loginUser(data);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+  const createUser = useCreateUser(form.reset);
+  const onSubmit = async (data: any) => createUser.mutate(data);
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-3">
-          <div className="grid gap-1">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isPendingLogin}
-              {...register('email')}
-            />
-            {errors.email && (
-              <span className="text-sm text-destructive">
-                {errors.email.message}
-              </span>
-            )}
-          </div>
-          <div className="grid gap-1">
-            <Label htmlFor="password">Senha</Label>
-            <Input
-              id="password"
-              placeholder="Sua senha"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="current-password"
-              autoCorrect="off"
-              disabled={isPendingLogin}
-              {...register('password')}
-            />
-            {errors.password && (
-              <span className="text-sm text-destructive">
-                {errors.password.message}
-              </span>
-            )}
-          </div>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid gap-3">
+            <div className="grid gap-1">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="email"
+                        placeholder="name@example.com"
+                        type="email"
+                        autoCapitalize="none"
+                        autoComplete="email"
+                        autoCorrect="off"
+                        disabled={createUser.isPending}
+                        {...field}
+                      />
+                    </FormControl>
 
-          <Button disabled={isPendingLogin} type="submit">
-            {isPendingLogin && (
-              <AiOutlineLoading className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            entrar
-          </Button>
-        </div>
-      </form>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grid gap-1">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="password"
+                        placeholder="Sua senha"
+                        type="password"
+                        autoCapitalize="none"
+                        autoComplete="current-password"
+                        autoCorrect="off"
+                        disabled={createUser.isPending}
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <Button disabled={createUser.isPending} type="submit">
+              {createUser.isPending && (
+                <AiOutlineLoading className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              entrar
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
     </div>
   );
 }

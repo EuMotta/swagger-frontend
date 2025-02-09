@@ -1,6 +1,7 @@
-import { authLogin } from '@/http/generated/api';
-import { AuthOptions, User } from 'next-auth';
+import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+
+import { authLogin } from '@/http/generated/api';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -12,7 +13,6 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.log('Missing email or password');
           return null;
         }
 
@@ -22,10 +22,12 @@ export const authOptions: AuthOptions = {
             password: credentials.password,
           });
 
-          console.log('API Response:', response);
-
-          if (!response?.data?.user || !response?.data?.token) {
-            throw new Error(response.error);
+          if (
+            !response?.data?.user ||
+            !response?.data?.token ||
+            response?.error
+          ) {
+            throw new Error(response.message);
           }
 
           return {
@@ -35,9 +37,15 @@ export const authOptions: AuthOptions = {
             email: response.data.user.email,
             token: String(response.data.token),
           };
-        } catch (error) {
-          console.error('Erro na autenticação:', error);
-          throw new Error(error.message);
+        } catch (error: any) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
+            throw new Error(error.response.data.message);
+          }
+          return null;
         }
       },
     }),
@@ -56,7 +64,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.email = token.email;
-        (session.user as any).token = token.token;
+        session.user.token = token.token;
       }
       return session;
     },
