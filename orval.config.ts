@@ -43,7 +43,7 @@ export default defineConfig({
             query: true,
             header: true,
             body: true,
-            response: false,
+            response: true,
           },
           generateEachHttpStatus: true,
         },

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getSession } from 'next-auth/react';
 
-import Axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import Axios, { AxiosRequestConfig } from 'axios';
 
 export const AXIOS_INSTANCE = Axios.create({ baseURL: process.env.API_URL }); // use your own URL here or environment variable
 
@@ -33,11 +33,3 @@ AXIOS_INSTANCE.interceptors.request.use(async (request) => {
 
   return request;
 });
-// In some case with react-query and swr you want to be able to override the return error type so you can also do it here like this
-export type ErrorType<Error> = AxiosError<Error>;
-
-export type BodyType<BodyData> = BodyData;
-
-// Or, in case you want to wrap the body type (optional)
-// (if the custom instance is processing data before sending it, like changing the case for example)
-//  export type BodyType<BodyData> = CamelCase<BodyData>;

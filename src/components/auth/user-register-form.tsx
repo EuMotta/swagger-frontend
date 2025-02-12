@@ -6,12 +6,13 @@ import { AiOutlineLoading } from 'react-icons/ai';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useCreateUser } from '@/hooks/auth/register-user';
+import { CreateUserResponse } from '@/http/generated/api.schemas';
+import { createUserBody } from '@/http/generated/schemas/users/users.zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 
 import { cn } from '@/lib/utils';
 
-import { useAuthUser } from '../../hooks/auth/use-login-user';
 import {
   FormControl,
   FormField,
@@ -22,33 +23,71 @@ import {
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const loginFormSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Por favor, insira seu email')
-    .email('Email inválido'),
-  password: z.string().min(1, 'Por favor, insira sua senha'),
-});
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
-
-export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginFormSchema),
+export function UserRegisterForm({ className, ...props }: UserAuthFormProps) {
+  const form = useForm<CreateUserResponse>({
+    resolver: zodResolver(createUserBody),
   });
 
-  const createUser = useAuthUser(form.reset);
-  const onSubmit = async (data: any) => createUser.mutate(data);
+  const createUser = useCreateUser();
+  const onSubmit = async (data: CreateUserResponse) => {
+    const result = createUser.mutate({ data });
+    console.log(result);
+  };
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-3">
-            <div className="grid gap-1">
+            <div className="flex gap-2">
+              <div>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="name"
+                          placeholder="John"
+                          autoCapitalize="none"
+                          autoComplete="name"
+                          autoCorrect="off"
+                          disabled={createUser.isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div>
+                <FormField
+                  control={form.control}
+                  name="last_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sobrenome</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="last_name"
+                          placeholder="Doe"
+                          autoCapitalize="none"
+                          autoComplete="last_name"
+                          autoCorrect="off"
+                          disabled={createUser.isPending}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+            <div>
               <FormField
                 control={form.control}
                 name="email"
@@ -67,13 +106,12 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="grid gap-1">
+            <div>
               <FormField
                 control={form.control}
                 name="password"
@@ -92,7 +130,6 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
                         {...field}
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -103,7 +140,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
               {createUser.isPending && (
                 <AiOutlineLoading className="mr-2 h-4 w-4 animate-spin" />
               )}
-              entrar
+              Cadastrar
             </Button>
           </div>
         </form>

@@ -3,6 +3,9 @@ import { signIn } from 'next-auth/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+/**
+ * @summary Define a função da mutação que será usada pelo `useMutation`
+ */
 const createUserFn = async (authUser: { email: string; password: string }) => {
   const response = await signIn('credentials', {
     redirect: false,
@@ -15,7 +18,11 @@ const createUserFn = async (authUser: { email: string; password: string }) => {
   return response;
 };
 
-export function useCreateUser(reset: () => void) {
+/**
+ * @summary Hook para autenticar o usuário
+ */
+
+export function useAuthUser(reset: () => void) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createUserFn,
