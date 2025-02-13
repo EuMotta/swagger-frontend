@@ -6,7 +6,7 @@ export default defineConfig({
       target: 'http://localhost:3001/api-json',
     },
     output: {
-      mode: 'split',
+      mode: 'tags',
       target: './src/http/generated/api.ts',
       client: 'react-query',
       httpClient: 'axios',

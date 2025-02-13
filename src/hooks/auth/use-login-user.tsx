@@ -1,6 +1,6 @@
 import { signIn } from 'next-auth/react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 /**
@@ -23,6 +23,19 @@ const createUserFn = async (authUser: { email: string; password: string }) => {
  */
 
 export function useAuthUser(reset: () => void) {
+  return useMutation({
+    mutationFn: createUserFn,
+    onSuccess: () => {
+      reset();
+      toast.success('Usuário logado com sucesso, encaminhando....');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+}
+
+/* export function useAuthUser(reset: () => void) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createUserFn,
@@ -35,10 +48,11 @@ export function useAuthUser(reset: () => void) {
     },
     onError: (err, context?: any) => {
       toast.error(err.message);
-      queryClient.setQueryData(['user-login'], context.previousUsers);
+      if (context?.previousUsers) {
+        queryClient.setQueryData(['user-login'], context.previousUsers);
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: 'user-login' });
     },
-  });
-}
+  }); */

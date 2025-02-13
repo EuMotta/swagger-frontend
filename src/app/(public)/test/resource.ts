@@ -6,7 +6,7 @@ export const getData = (httpClient: HTTPClient) => {
     loadAll: async (apiUrl: string) => {
       let url = apiUrl;
       if (apiUrl.startsWith('/')) {
-        url = `${env.FULL_URL}${apiUrl}`;
+        url = `${env.PUBLIC_URL}${apiUrl}`;
       } else {
         url = apiUrl;
       }

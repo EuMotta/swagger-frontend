@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 
 import { ApiResponse } from '@/@interfaces/api';
 import type { ErrorType, BodyType } from '@/@interfaces/api';
+import { SecondParameter } from '@/@interfaces/api';
 import { http } from '@/http/client';
-import { SecondParameter } from '@/http/generated/api';
 import { CreateUserResponse } from '@/http/generated/api.schemas';
 import {
   MutationFunction,
