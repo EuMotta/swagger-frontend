@@ -3,9 +3,26 @@ import { getSession } from 'next-auth/react';
 
 import Axios, { AxiosRequestConfig } from 'axios';
 
-export const AXIOS_INSTANCE = Axios.create({ baseURL: process.env.API_URL }); // use your own URL here or environment variable
+/**
+ * @function AXIOS_INSTANCE
+ * @summary Instância pré-configurada do Axios
+ *
+ * Cria uma instância do Axios com um `baseURL` definido. Pode ser ajustado conforme necessário.
+ */
+export const AXIOS_INSTANCE = Axios.create({ baseURL: process.env.API_URL });
 
-// add a second `options` argument here if you want to pass extra options to each generated query
+/**
+ * @function http
+ * @summary Função para realizar requisições HTTP com Axios
+ *
+ * Cria uma instância do Axios e permite realizar chamadas HTTP com suporte a cancelamento.
+ *
+ * @template T - Tipo esperado na resposta da requisição.
+ * @param {AxiosRequestConfig} config - Configurações básicas da requisição (URL, método, etc.).
+ * @param {AxiosRequestConfig} [options] - Configurações adicionais opcionais para a requisição.
+ * @returns {Promise<T>} - Uma promessa que resolve com os dados da resposta.
+ */
+
 export const http = <T>(
   config: AxiosRequestConfig,
   options?: AxiosRequestConfig,
@@ -24,9 +41,16 @@ export const http = <T>(
 
   return promise;
 };
+
+/**
+ * @function interceptors.request
+ * @summary Interceptor para adicionar o token de autenticação
+ *
+ * Intercepta as requisições para incluir o token JWT do usuário autenticado (caso exista).
+ */
+
 AXIOS_INSTANCE.interceptors.request.use(async (request) => {
   const session = await getSession();
-
   if (session?.token) {
     request.headers.Authorization = `Bearer ${session.token}`;
   }

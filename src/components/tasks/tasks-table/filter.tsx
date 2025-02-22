@@ -59,7 +59,7 @@ const UsersFilter = () => {
   };
 
   return (
-    <div className="  p-4 ">
+    <div className="border-b bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex space-x-5">
           <div className="w-full">

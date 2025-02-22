@@ -220,7 +220,7 @@ function SelectRowsPerPage({
         onValueChange={(value) => setPageSize(Number(value))}
       >
         <SelectTrigger className="w-16">
-          <SelectValue placeholder={pageSize} />
+          <SelectValue>{pageSize}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

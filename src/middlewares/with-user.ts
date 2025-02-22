@@ -5,6 +5,18 @@ import { env } from '@/env';
 
 import { MiddlewareFactory } from './middleware-factory';
 
+/**
+ * @function auth
+ * @summary Middleware para gerenciar a autenticação de rotas protegidas e públicas no Next.js
+ *
+ * Este middleware verifica se o usuário possui um token válido para acessar rotas protegidas.
+ * - Redireciona usuários não autenticados para "/nao-autorizado" em rotas protegidas.
+ * - Redireciona usuários autenticados para "/dashboard" em rotas de autenticação.
+ *
+ * @param {NextMiddleware} next - Próximo middleware na cadeia.
+ * @returns {NextMiddleware} - Middleware de autenticação.
+ */
+
 export const auth: MiddlewareFactory = (next) => {
   return async (request: NextRequest, _next: NextFetchEvent) => {
     const token = await getToken({

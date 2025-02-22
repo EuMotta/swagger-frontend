@@ -38,6 +38,7 @@ export const authOptions: AuthOptions = {
             token: String(response.data.token),
           };
         } catch (error: any) {
+          console.error(error);
           if (
             error.response &&
             error.response.data &&
@@ -51,7 +52,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    maxAge: 60 * 60 * 24,
+    maxAge: 36000,
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -62,9 +63,9 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (session && session.user) {
         session.user.email = token.email;
-        session.user.token = token.token;
+        session.token = token.token;
       }
       return session;
     },

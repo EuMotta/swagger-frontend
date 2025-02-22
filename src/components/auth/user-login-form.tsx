@@ -40,8 +40,10 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
     resolver: zodResolver(loginFormSchema),
   });
 
-  const createUser = useAuthUser(form.reset);
-  const onSubmit = async (data: any) => createUser.mutate(data);
+  const loginUser = useAuthUser(form.reset);
+  const onSubmit = async (data: any) => {
+    loginUser.mutate(data);
+  };
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
@@ -63,7 +65,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
                         autoCapitalize="none"
                         autoComplete="email"
                         autoCorrect="off"
-                        disabled={createUser.isPending}
+                        disabled={loginUser.isPending}
                         {...field}
                       />
                     </FormControl>
@@ -88,7 +90,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
                         autoCapitalize="none"
                         autoComplete="current-password"
                         autoCorrect="off"
-                        disabled={createUser.isPending}
+                        disabled={loginUser.isPending}
                         {...field}
                       />
                     </FormControl>
@@ -99,8 +101,8 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
               />
             </div>
 
-            <Button disabled={createUser.isPending} type="submit">
-              {createUser.isPending && (
+            <Button disabled={loginUser.isPending} type="submit">
+              {loginUser.isPending && (
                 <AiOutlineLoading className="mr-2 h-4 w-4 animate-spin" />
               )}
               entrar
