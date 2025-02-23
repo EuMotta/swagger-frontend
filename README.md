@@ -1,86 +1,211 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- PROJECT LOGO -->
+<!-- LOGO DO PROJETO -->
 <br />
 <div align="center">
-  <a href="https://github.com/EuMotta/nextjs-template-typescript">
+  <a href="https://github.com/EuMotta/swagger-frontend">
     <img src="https://i.ibb.co/K6wGmvs/next-1.png" alt="Logo" width="600" height="100">
   </a>
 
-  <h3 align="center">Template Next.js</h3>
+  <h3 align="center">Task Manager - Next.js</h3>
 
   <p align="center">
-    Modelo que utilizo em meus projetos.
+    Um gerenciador de tarefas moderno, rápido e intuitivo desenvolvido com Next.js, TypeScript e ferramentas avançadas do ecossistema React.
     <br />
     <br />
     <a href="https://github.com/EuMotta?tab=repositories">Meus repositórios</a>
     ·
-    <a href="https://github.com/EuMotta/nextjs-template-typescript/issues">Reportar Bugs</a>
+    <a href="https://github.com/EuMotta/swagger-frontend/issues">Reportar Bugs</a>
     ·
-    <a href="https://github.com/EuMotta/nextjs-template-typescript/pulls">Pull Requests</a>
+    <a href="https://github.com/EuMotta/swagger-frontend/pulls">Enviar Pull Request</a>
   </p>
 </div>
 
-## Sobre o projeto
+---
 
-Este repositório é um template que utilizo em meus projetos com Next.js. Ele contém uma estrutura básica de um projeto Next.js, juntamente com algumas bibliotecas e configurações que costumo usar.
+## 📋 Sobre o Projeto
 
-Este template inclui as seguintes bibliotecas:
+**Task Manager** é uma aplicação web desenvolvida com **Next.js** que permite aos usuários:
 
-- `eslint`: Uma ferramenta de linting para JavaScript e JSX.
-- `husky`: Utilizado para garantir que todos os commits sigam as regras de linting.
-- `lint-staged`: Utilizado em conjunto com o husky para executar o linting apenas nos arquivos que foram alterados.
-- `prettier`: Uma ferramenta para formatar automaticamente o código.
-- `tailwindcss`: Uma biblioteca para a construção de interfaces de usuário personalizadas.
-- `xml-js`: Uma biblioteca para converter XML para JSON e vice-versa.
+- Criar, editar e excluir tarefas.
+- Organizar as tarefas por categorias e status (pendente, em progresso, concluída).
+- Pesquisar e filtrar tarefas por nome ou status.
+- Realizar autenticação de usuário (login/logout).
+- Interface responsiva e amigável com **Tailwind CSS**.
 
-Selecionei um conjunto de bibliotecas que acredito ser essencial para manter a consistência e eficiência no desenvolvimento, mantendo assim uma estrutura padronizada no código.
+<p align="right">(<a href="#readme-top">Voltar ao topo</a>)</p>
 
-<p align="right">(<a href="#readme-top">Voltar</a>)</p>
+---
 
-### Construido com
+## 🚀 Funcionalidades Principais
 
-Aqui estão as tecnologias que utilizei para desenvolver o template.
+✅ **Gerenciamento Completo de Tarefas**  
+   - Criar, editar e excluir tarefas.  
+   - Atualizar o status das tarefas.  
 
-- [![Next][Next.js]][Next-url]
-- [![React][React.js]][React-url]
+✅ **Autenticação com NextAuth**  
+   - Login seguro com NextAuth.  
 
-<p align="right">(<a href="#readme-top">Voltar</a>)</p>
+✅ **Pesquisa e Filtros**  
+   - Filtrar tarefas por status (pendente, em andamento, concluída).  
+   - Buscar tarefas por palavras-chave.  
 
-## Começando
+✅ **Interface Intuitiva e Responsiva**  
+   - Design moderno usando **Tailwind CSS**.  
+   - Compatível com dispositivos móveis.  
 
-Para utilizar o template, siga os passos abaixo.
+✅ **Notificações em Tempo Real**  
+   - Feedback visual para ações (ex.: sucesso, erro, carregamento) com **sonner**.
 
-## Contribuindo
+<p align="right">(<a href="#readme-top">Voltar ao topo</a>)</p>
 
-Contribuições são o que tornam a comunidade de código aberto um ambiente de crescimento. Todas as contribuições que você fizer serão **muito apreciadas**.
+---
 
-Se você tiver uma sugestão que possa tornar isso melhor, por favor, faça um fork do repositório e crie uma pull request. Você também pode simplesmente abrir uma issue com a tag "melhoria".
-Não se esqueça de dar uma estrela ao projeto! Obrigado novamente!
+## 🛠️ Tecnologias Utilizadas
 
-1. Faça um Fork do Projeto
-2. Crie um novo Branch para a sua Feature (`git checkout -b feature/Novidade`)
-3. Faça suas Mudanças (`git commit -m 'Adicione alguma mensagem'`)
-4. Faça o Push para o Branch (`git push origin feature/Novidade`)
-5. Abra uma Pull Request
+Este projeto foi desenvolvido com as seguintes tecnologias principais:
 
-<p align="right">(<a href="#readme-top">Voltar</a>)</p>
+- **Next.js**: Framework React para SSR (Server-Side Rendering) e SSG (Static Site Generation).
+- **React**: Biblioteca para construção de interfaces de usuário.
+- **TypeScript**: Tipagem estática para maior segurança e produtividade.
+- **Tailwind CSS**: Framework utilitário para estilização rápida e responsiva.
+- **React Hook Form + Zod**: Gerenciamento avançado e validação de formulários.
+- **@tanstack/react-query**: Cache e gerenciamento de estado assíncrono (ex.: chamadas à API).
+- **NextAuth**: Autenticação segura.
+- **Radix UI**: Componentes acessíveis (ex.: modais, tooltips, checkboxes).
+- **Sonner**: Biblioteca para notificações dinâmicas e personalizáveis.
 
-## Contact
+<p align="right">(<a href="#readme-top">Voltar ao topo</a>)</p>
 
-José Antonio Motta - [Linkedin](https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/)
+---
 
-Link do projeto: [https://github.com/EuMotta/template-typescript-nextjs](https://github.com/EuMotta/template-typescript-nextjs)
+## 📦 Estrutura do Projeto
 
-<p align="right">(<a href="#readme-top">Voltar</a>)</p>
+```
+📦 swagger-frontend
+├── 📂 src
+│   ├── 📂 @interfaces     # Tipagens das entidades
+│   ├── 📂 adapters        # Adaptadores para o lado do servidor
+│   ├── 📂 app             # Rotas do Next.js
+│   ├── 📂 components      # Componentes reutilizáveis
+│   ├── 📂 constants       # Constantes
+│   ├── 📂 env             # Proteção das variávens de ambiente
+│   ├── 📂 hooks           # Hooks customizados
+│   ├── 📂 http            # Hooks e tipagens fornecidos pelo Orval
+│   ├── 📂 providers       # Provedores customizados
+│   ├── 📂 styles          # Estilização do projeto
+│   ├── 📂 utils           # Funções auxiliares
+│   └── 📂 middlewares     # Middlewares customizados + construtor
+├── .....
+├── orval.config.ts        # Configuração do orval para receber o swagger
+└── package.json           # Dependências do projeto
+```
+
+---
+
+## 📚 Documentação Inline
+
+Todo o código possui **documentação inline**  para facilitar a compreensão e manutenção.  
+Exemplo de documentação em um hook:  
+
+```typescript
+/**
+ * @summary Hook para buscar todas as tarefas.
+ *
+ * @param {number} page - Número da página atual.
+ * @param {number} limit - Quantidade de tarefas por página.
+ * @param {string} [status] - Status das tarefas (opcional).
+ *
+ * @returns {UseQueryResult<Task[]>} Lista de tarefas paginada.
+ */
+export function useGetTasks(page: number, limit: number, status?: string) {
+  return useQuery(['tasks', page, status], () =>
+    fetchTasks(page, limit, status)
+  );
+}
+```
+
+---
+
+## ▶️ Executando o Projeto Localmente
+
+### ✅ Pré-requisitos:
+
+- Node.js (utilizei no projeto a versão v23.6.1)
+- Git (opcional)
+
+### 🔨 Passos para rodar localmente:
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/EuMotta/swagger-frontend.git
+   cd swagger-frontend
+   ```
+
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
+
+3. **Configure as variáveis de ambiente:**
+   Crie um arquivo `.env.local` na raiz do projeto e adicione:
+
+   ```env
+   DATABASE_URL="sua_url_do_banco"
+   NEXTAUTH_SECRET="seu_segredo"
+   NEXTAUTH_URL="http://localhost:3000"
+   ```
+
+4. **Execute o projeto em modo de desenvolvimento:**
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
+
+5. **Acesse no navegador:**
+   ```
+   http://localhost:3000
+   ```
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são muito bem-vindas!  
+Se você deseja melhorar o projeto, siga os passos:
+
+1. Faça um **Fork** do projeto.
+2. Crie um novo **Branch** para sua funcionalidade (`git checkout -b feature/minha-feature`).
+3. Faça as mudanças e crie um **Commit** (`git commit -m 'feat: minha nova funcionalidade'`).
+4. Faça um **Push** no branch (`git push origin feature/minha-feature`).
+5. Abra uma **Pull Request**.
+
+---
+
+## 📄 Licença
+
+Distribuído sob a Licença MIT. Veja `LICENSE` para mais informações.
+
+---
+
+## 📞 Contato
+
+José Antonio Motta - [LinkedIn](https://www.linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/)
+
+Link do projeto: [https://github.com/EuMotta/swagger-frontend](https://github.com/EuMotta/swagger-frontend)
+
+---
 
 <h1 align="center">
-    <div>Obrigado!</div>
+    <div>🚀 Obrigado por conferir este projeto!</div>
 </h1>
 
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/josé-antonio-bueno-motta-61006a26b/
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555  
+[linkedin-url]: https://linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/  
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white  
+[Next-url]: https://nextjs.org/  
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB  
+[React-url]: https://react.dev/
