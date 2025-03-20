@@ -6,7 +6,8 @@ export default function Error() {
   return (
     <EmptyState
       title="Página não encontrada"
-      subtitle="Você acessou uma pagina que não existe"
+      subtitle={'Esta pagina não existe'}
+      image="/stickers/system.png"
     />
   );
 }

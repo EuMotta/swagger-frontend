@@ -28,6 +28,8 @@ import {
   Sparkles,
 } from 'lucide-react';
 
+import { Skeleton } from './ui/skeleton';
+
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { data: session, status } = useSession();
@@ -35,9 +37,10 @@ export function NavUser() {
   if (status === 'loading')
     return (
       <div className="flex justify-center items-center">
-        <div className="loader"></div>
+        <Skeleton className="h-10 w-full" />
       </div>
     );
+
   if (status === 'unauthenticated')
     return (
       <div>

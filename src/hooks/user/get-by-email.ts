@@ -2,6 +2,7 @@ import { ApiResponse } from '@/@interfaces/api';
 import { UserTypes } from '@/@interfaces/zod/user';
 import { http } from '@/http/client';
 import { useQuery, QueryFunction, UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 /**
  * @function getUserByEmail
@@ -52,7 +53,7 @@ export const getGetUserByEmailQueryKey = (email: string) => {
 
 export function useGetUserByEmail<
   TData = Awaited<ReturnType<typeof getUserByEmail>>,
-  TError = Error,
+  TError = AxiosError<{ message: string }>,
 >(email: string): UseQueryResult<TData, TError> {
   const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserByEmail>>> = ({
     signal,

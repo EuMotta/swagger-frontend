@@ -126,10 +126,9 @@ const usersColumns: ColumnDef<any>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
-            <DropdownMenuItem>
-              <Link href={`/users/${row.original.email}`}>Perfil</Link>
-            </DropdownMenuItem>
+            <Link href={`/users/${row.original.email}`}>
+              <DropdownMenuItem>Perfil</DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       );

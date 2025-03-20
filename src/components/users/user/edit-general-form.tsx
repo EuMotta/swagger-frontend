@@ -5,7 +5,6 @@ import { FileWithPath, useDropzone } from 'react-dropzone';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 
-import { editUserBody, UserTypes } from '@/@interfaces/zod/user';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { FileWithPreview, ImageCropper } from '@/components/ui/image-cropper';
@@ -17,8 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useEditUser } from '@/hooks/user/edit-user';
+import { useUpdateUserByEmail } from '@/http/generated/api';
+import { UpdateUserResponse, UserDto } from '@/http/generated/api.schemas';
+import { updateUserByEmailBody } from '@/http/generated/schemas/users/users.zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import {
   FormControl,
@@ -39,11 +41,7 @@ const ROLES = [
   { label: 'Fundador', value: 'FOUNDER' },
 ];
 
-const EditUserGeneral = ({
-  user,
-}: {
-  user: UserTypes['edit-user-general'];
-}) => {
+const EditUserGeneral = ({ user }: { user: UserDto }) => {
   const [selectedFile, setSelectedFile] =
     React.useState<FileWithPreview | null>(null);
   const [isDialogOpen, setDialogOpen] = React.useState(false);
@@ -68,8 +66,8 @@ const EditUserGeneral = ({
     accept,
   });
 
-  const form = useForm<UserTypes['edit-user-general']>({
-    resolver: zodResolver(editUserBody),
+  const form = useForm<UpdateUserResponse>({
+    resolver: zodResolver(updateUserByEmailBody),
     defaultValues: {
       name: user.name ?? '',
       last_name: user.last_name ?? '',
@@ -77,13 +75,24 @@ const EditUserGeneral = ({
     },
   });
 
-  const editUser = useEditUser();
-  const onSubmit = async (data: UserTypes['edit-user-general']) => {
-    editUser.mutate({ data, userEmail: user.email });
+  const editUser = useUpdateUserByEmail();
+  const onSubmit = async (data: UpdateUserResponse) => {
+    console.log('chegou');
+    editUser.mutate(
+      { data, email: user.email },
+      {
+        onSuccess: (response) => {
+          toast.success(response.message);
+        },
+        onError: (error) => {
+          toast.error(error.response.data.message[0] ?? error.message);
+        },
+      },
+    );
   };
 
   return (
-    <div>
+    <div className="mx-auto p-6 bg-sidebar shadow rounded-lg max-w-xls">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-3">

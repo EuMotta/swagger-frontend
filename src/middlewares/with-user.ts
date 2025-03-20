@@ -23,7 +23,8 @@ export const auth: MiddlewareFactory = (next) => {
       req: request,
       secret: env.NEXTAUTH_SECRET,
     });
-    const protectedRoutes = ['/home'];
+
+    const protectedRoutes = ['/users'];
     const authRoutes = ['/entrar', '/cadastrar', '/'];
     const isProtectedRoute = protectedRoutes.some((route) =>
       request.nextUrl.pathname.startsWith(route),
@@ -32,13 +33,15 @@ export const auth: MiddlewareFactory = (next) => {
     const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
 
     if (!token && isProtectedRoute) {
-      const absoluteURL = new URL('/nao-autorizado', request.nextUrl.origin);
+      const absoluteURL = new URL('/unauthorized', request.nextUrl.origin);
       return NextResponse.rewrite(absoluteURL.toString());
     }
+
     if (token && isAuthRoute) {
-      const absoluteURL = new URL('/dashboard', request.nextUrl.origin);
+      const absoluteURL = new URL('/users', request.nextUrl.origin);
       return NextResponse.redirect(absoluteURL.toString());
     }
+
     return next(request, _next);
   };
 };

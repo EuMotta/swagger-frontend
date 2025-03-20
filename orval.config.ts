@@ -1,4 +1,27 @@
+import fs from 'fs';
 import { defineConfig } from 'orval';
+import path from 'path';
+
+const schemasPath = path.join(process.cwd(), 'src/http/generated/schemas');
+
+const applyZodErrorImport = `import { applyZodErrorMap } from "@/utils/apply-zod-error-map";\n\napplyZodErrorMap();\n\n`;
+
+const processFiles = (dir: string) => {
+  fs.readdirSync(dir).forEach((file) => {
+    const fullPath = path.join(dir, file);
+
+    if (fs.lstatSync(fullPath).isDirectory()) {
+      processFiles(fullPath);
+    } else if (file.endsWith('.zod.ts')) {
+      const content = fs.readFileSync(fullPath, 'utf8');
+
+      if (!content.includes('applyZodErrorMap')) {
+        fs.writeFileSync(fullPath, applyZodErrorImport + content, 'utf8');
+        console.log(`✅ Atualizado: ${fullPath}`);
+      }
+    }
+  });
+};
 
 export default defineConfig({
   client: {
@@ -6,7 +29,7 @@ export default defineConfig({
       target: 'http://localhost:3001/api-json',
     },
     output: {
-      mode: 'tags',
+      mode: 'split',
       target: './src/http/generated/api.ts',
       client: 'react-query',
       httpClient: 'axios',
@@ -24,7 +47,10 @@ export default defineConfig({
       },
     },
     hooks: {
-      afterAllFilesWrite: 'npm run format:api',
+      afterAllFilesWrite: () => {
+        console.log('🔄 Aplicando ajustes nos arquivos Zod...');
+        processFiles(schemasPath);
+      },
     },
   },
   clientZod: {
@@ -43,10 +69,16 @@ export default defineConfig({
             query: true,
             header: true,
             body: true,
-            response: true,
+            response: false,
           },
           generateEachHttpStatus: true,
         },
+      },
+    },
+    hooks: {
+      afterAllFilesWrite: () => {
+        console.log('🔄 Aplicando ajustes nos arquivos Zod...');
+        processFiles(schemasPath);
       },
     },
   },

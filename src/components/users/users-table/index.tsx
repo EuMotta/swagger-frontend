@@ -20,7 +20,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useGetAllUsers } from '@/hooks/user/get-all';
+import { useGetAllUsers } from '@/http/generated/api';
+import {
+  GetAllUsersOrder,
+  GetAllUsersParams,
+} from '@/http/generated/api.schemas';
 import {
   ColumnFiltersState,
   SortingState,
@@ -39,20 +43,18 @@ import usersColumns from './table/columns';
 
 export function UsersTable() {
   const searchParams = useSearchParams();
-  const page = z.number().parse(Number(searchParams.get('page') ?? '1'));
-  const limit = z.number().parse(Number(searchParams.get('limit') ?? '10'));
-  const search = z.string().parse(searchParams.get('search') ?? '');
-  const status = z.string().parse(searchParams.get('status') ?? '');
-  const order_by = z.string().parse(searchParams.get('order_by') ?? '');
-  const order = z.string().parse(searchParams.get('order') ?? '');
+  const params: GetAllUsersParams = {
+    page: z.number().parse(Number(searchParams.get('page') ?? '1')),
+    limit: z.number().parse(Number(searchParams.get('limit') ?? '10')),
+    search: z.string().parse(searchParams.get('search') ?? ''),
+    status: z.string().parse(searchParams.get('status') ?? ''),
+    order_by: z.string().parse(searchParams.get('order_by') ?? ''),
+    order: z
+      .enum(['ASC', 'DESC'])
+      .parse(searchParams.get('order') ?? 'ASC') as GetAllUsersOrder,
+  };
 
-  const {
-    data: users,
-    isLoading,
-    isError,
-    error,
-  } = useGetAllUsers(page, limit, search, status, order_by, order);
-  console.log(users);
+  const { data: users, isLoading, isError, error } = useGetAllUsers(params);
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -156,7 +158,7 @@ export function UsersTable() {
                   colSpan={usersColumns.length}
                   className="h-24 text-center"
                 >
-                  {error.message}
+                  {error?.response?.data?.message || error.message}
                 </TableCell>
               </TableRow>
             )}
@@ -201,7 +203,7 @@ export function UsersTable() {
           <PaginationWithLinks
             page={Number(users.data.meta.page)}
             totalCount={users.data.meta.item_count}
-            pageSize={Number(limit)}
+            pageSize={Number(params.limit)}
             pageSizeSelectOptions={{
               pageSizeOptions,
               pageSizeSearchParam: 'limit',

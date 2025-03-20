@@ -9,6 +9,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 /**
  * @function getAllUsers
@@ -177,7 +178,7 @@ const getGetAllUsersQueryOptions = <
 
 export function useGetAllUsers<
   TData = Awaited<ReturnType<typeof getAllUsers>>,
-  TError = Error,
+  TError = AxiosError<{ message: string }>,
 >(
   page: number,
   limit: number,

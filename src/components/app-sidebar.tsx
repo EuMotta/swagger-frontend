@@ -26,6 +26,8 @@ import {
   SquareTerminal,
 } from 'lucide-react';
 
+import Logo from './logo';
+
 // This is sample data.
 const data = {
   user: {
@@ -52,18 +54,18 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Usuários',
       url: '#',
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: 'History',
-          url: '#',
+          title: 'Lista de usuários',
+          url: '/users',
         },
         {
-          title: 'Starred',
-          url: '#',
+          title: 'Criar',
+          url: '/users/create',
         },
         {
           title: 'Settings',
@@ -159,6 +161,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
+      <Logo />
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>

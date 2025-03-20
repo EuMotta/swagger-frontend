@@ -1,13 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { MdLocationPin } from 'react-icons/md';
 
+import { LoadingResponse, Response } from '@/components/common/response';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EditProfile from '@/components/users/user/edit-profile';
-import { useGetUserByEmail } from '@/hooks/user/get-by-email';
+import { useGetUserByEmail } from '@/http/generated/api';
 
 interface Params {
   params: {
@@ -22,14 +24,32 @@ const Page = ({ params }: Params) => {
     isError,
     error,
   } = useGetUserByEmail(params.email);
+  const router = useRouter();
   if (isLoading)
     return (
-      <div className="h-96 flex justify-center items-center">
-        <div className="loader"></div>
+      <LoadingResponse
+        image="/stickers/loading-happy.png"
+        secondaryImage="/stickers/loading-sad.png"
+        title="Carregando usuários"
+        description="Carregando usuários"
+        secondaryDescription="Eu sei que está demorando, ja vai!"
+      />
+    );
+
+  console.log(user);
+  if (isError)
+    return (
+      <div>
+        <Response
+          image="/stickers/system.png"
+          title={error?.response?.data?.message || error?.message}
+          description="Pedimos desculpas pelo transtorno"
+          buttonText="Voltar para a lista de usuários"
+          onButtonClick={() => router.push('/users')}
+        />
       </div>
     );
-  if (isError) return <div>Error: {error.message}</div>;
-  if (!user) return <div>usuário não encontrado</div>;
+  if (!user || !user?.data) return <div>usuário não encontrado</div>;
 
   return (
     <div className="bg-background">

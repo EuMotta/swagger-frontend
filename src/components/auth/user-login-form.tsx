@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
+import { PasswordInput } from '../ui/password-input';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -83,13 +84,7 @@ export function UserLoginForm({ className, ...props }: UserAuthFormProps) {
                   <FormItem>
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
-                      <Input
-                        id="password"
-                        placeholder="Sua senha"
-                        type="password"
-                        autoCapitalize="none"
-                        autoComplete="current-password"
-                        autoCorrect="off"
+                      <PasswordInput
                         disabled={loginUser.isPending}
                         {...field}
                       />

@@ -2,12 +2,13 @@ import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 
-import { editUserBody, UserTypes } from '@/@interfaces/zod/user';
+import { editUserBody } from '@/@interfaces/zod/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useEditUserEmail } from '@/hooks/user/edit-email';
-import { useEmailVerify } from '@/hooks/user/verify-email';
+import { useUpdateUserEmail, useVerifyUserEmail } from '@/http/generated/api';
+import { UpdateUserEmailResponse, UserDto } from '@/http/generated/api.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import {
   FormControl,
@@ -17,25 +18,35 @@ import {
   FormMessage,
 } from '../../ui/form';
 
-const EditUserEmail = ({ user }: { user: UserTypes['user'] }) => {
-  const form = useForm<UserTypes['edit-user-email']>({
+const EditUserEmail = ({ user }: { user: UserDto }) => {
+  const form = useForm<UpdateUserEmailResponse>({
     resolver: zodResolver(editUserBody),
     defaultValues: {
       email: user.email ?? '',
     },
   });
 
-  const editUser = useEditUserEmail();
-  const verifyEmail = useEmailVerify();
-  const onSubmit = async (data: UserTypes['edit-user-email']) => {
-    editUser.mutate({ data, userEmail: user.email });
+  const editUser = useUpdateUserEmail();
+  const verifyEmail = useVerifyUserEmail();
+  const onSubmit = async (data: UpdateUserEmailResponse) => {
+    editUser.mutate(
+      { data, email: user.email },
+      {
+        onSuccess: (response) => {
+          toast.success(response.message);
+        },
+        onError: (error) => {
+          toast.error(error.response.data.message[0] ?? error.message);
+        },
+      },
+    );
   };
   const onSubmitVerifyEmail = async () => {
-    verifyEmail.mutate({ userEmail: user.email });
+    verifyEmail.mutate({ data: { email: user.email } });
   };
 
   return (
-    <div className=" mx-auto p-6  ">
+    <div className="mx-auto p-6 bg-sidebar shadow rounded-lg max-w-lg">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-6">
@@ -64,7 +75,7 @@ const EditUserEmail = ({ user }: { user: UserTypes['user'] }) => {
                 />
               </div>
               <div>
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 mt-8">
                   {user.is_email_verified ? (
                     <span className="px-3 py-1 text-sm text-green-700 bg-green-100 rounded-full">
                       Verificado
