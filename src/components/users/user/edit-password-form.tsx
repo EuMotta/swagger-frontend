@@ -6,10 +6,14 @@ import { AiOutlineLoading } from 'react-icons/ai';
 
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from '@/components/ui/password-input';
-import { useUpdateUserPassword } from '@/http/generated/api';
+import {
+  getGetUserByEmailQueryKey,
+  useUpdateUserPassword,
+} from '@/http/generated/api';
 import { UpdateUserPasswordResponse } from '@/http/generated/api.schemas';
 import { updateUserPasswordBody } from '@/http/generated/schemas/users/users.zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
@@ -26,14 +30,19 @@ const EditUserPassword = ({ user }: { user: { email: string } }) => {
   });
 
   const editUser = useUpdateUserPassword();
-
+  const queryClient = useQueryClient();
   const onSubmit = async (data: UpdateUserPasswordResponse) => {
     editUser.mutate(
       { data, email: user.email },
       {
         onSuccess: (response) => {
           toast.success(response.message);
+          queryClient.invalidateQueries({
+            queryKey: getGetUserByEmailQueryKey(encodeURIComponent(user.email)),
+          });
+          form.reset();
         },
+
         onError: (error) => {
           toast.error(error.response.data.message[0] ?? error.message);
         },

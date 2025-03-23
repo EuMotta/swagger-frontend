@@ -16,10 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useUpdateUserByEmail } from '@/http/generated/api';
+import {
+  getGetUserByEmailQueryKey,
+  useUpdateUserByEmail,
+} from '@/http/generated/api';
 import { UpdateUserResponse, UserDto } from '@/http/generated/api.schemas';
 import { updateUserByEmailBody } from '@/http/generated/schemas/users/users.zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
@@ -76,13 +80,16 @@ const EditUserGeneral = ({ user }: { user: UserDto }) => {
   });
 
   const editUser = useUpdateUserByEmail();
+  const queryClient = useQueryClient();
   const onSubmit = async (data: UpdateUserResponse) => {
-    console.log('chegou');
     editUser.mutate(
       { data, email: user.email },
       {
         onSuccess: (response) => {
           toast.success(response.message);
+          queryClient.invalidateQueries({
+            queryKey: getGetUserByEmailQueryKey(encodeURIComponent(user.email)),
+          });
         },
         onError: (error) => {
           toast.error(error.response.data.message[0] ?? error.message);

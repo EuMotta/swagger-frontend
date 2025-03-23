@@ -1,13 +1,19 @@
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 
-import { editUserBody } from '@/@interfaces/zod/user';
+import { editUserEmailBody } from '@/@interfaces/zod/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useUpdateUserEmail, useVerifyUserEmail } from '@/http/generated/api';
+import {
+  getGetUserByEmailQueryKey,
+  useUpdateUserEmail,
+  useVerifyUserEmail,
+} from '@/http/generated/api';
 import { UpdateUserEmailResponse, UserDto } from '@/http/generated/api.schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
@@ -20,13 +26,15 @@ import {
 
 const EditUserEmail = ({ user }: { user: UserDto }) => {
   const form = useForm<UpdateUserEmailResponse>({
-    resolver: zodResolver(editUserBody),
+    resolver: zodResolver(editUserEmailBody),
     defaultValues: {
       email: user.email ?? '',
     },
   });
 
   const editUser = useUpdateUserEmail();
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const verifyEmail = useVerifyUserEmail();
   const onSubmit = async (data: UpdateUserEmailResponse) => {
     editUser.mutate(
@@ -34,6 +42,10 @@ const EditUserEmail = ({ user }: { user: UserDto }) => {
       {
         onSuccess: (response) => {
           toast.success(response.message);
+          queryClient.invalidateQueries({
+            queryKey: getGetUserByEmailQueryKey(encodeURIComponent(user.email)),
+          });
+          router.push(`/users/${data.email}`);
         },
         onError: (error) => {
           toast.error(error.response.data.message[0] ?? error.message);

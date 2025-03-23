@@ -5,10 +5,10 @@ import { MdLocationPin } from 'react-icons/md';
 
 import { LoadingResponse, Response } from '@/components/common/response';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EditProfile from '@/components/users/user/edit-profile';
+import UpdateStatus from '@/components/users/user/update-status';
 import { useGetUserByEmail } from '@/http/generated/api';
 
 interface Params {
@@ -78,9 +78,7 @@ const Page = ({ params }: Params) => {
               California, United States
             </p>
           </div>
-          <Button variant={'secondary'} className="ml-auto ">
-            Edit Profile
-          </Button>
+          <UpdateStatus user={user.data} />
         </div>
       </div>
       <div className="p-5">

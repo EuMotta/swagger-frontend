@@ -45,6 +45,8 @@ const CreateUser = () => {
       {
         onSuccess: (response) => {
           toast.success(response.message);
+
+          form.reset();
         },
         onError: (error) => {
           toast.error(error.response.data.message[0] ?? error.message);
