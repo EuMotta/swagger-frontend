@@ -16,6 +16,7 @@ const Error: React.FC<ErrorStateProps> = ({
       title="Aconteceu um problema!"
       subtitle={error.message || 'Não sei ainda o que é, mas vou descobrir!.'}
       showReset
+      image="/stickers/system.png"
       label="Tentar novamente"
       reset={reset}
     />

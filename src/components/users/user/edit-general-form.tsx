@@ -20,7 +20,7 @@ import {
   getGetUserByEmailQueryKey,
   useUpdateUserByEmail,
 } from '@/http/generated/api';
-import { UpdateUserResponse, UserDto } from '@/http/generated/api.schemas';
+import { UpdateUserResponse, User } from '@/http/generated/api.schemas';
 import { updateUserByEmailBody } from '@/http/generated/schemas/users/users.zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -45,7 +45,7 @@ const ROLES = [
   { label: 'Fundador', value: 'FOUNDER' },
 ];
 
-const EditUserGeneral = ({ user }: { user: UserDto }) => {
+const EditUserGeneral = ({ user }: { user: User }) => {
   const [selectedFile, setSelectedFile] =
     React.useState<FileWithPreview | null>(null);
   const [isDialogOpen, setDialogOpen] = React.useState(false);

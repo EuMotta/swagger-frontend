@@ -1,6 +1,6 @@
 import { ApiResponse, Pagination, SecondParameter } from '@/@interfaces/api';
 import { http } from '@/http/client';
-import { UserDto } from '@/http/generated/api.schemas';
+import { User } from '@/http/generated/api.schemas';
 import {
   DataTag,
   QueryFunction,
@@ -26,7 +26,7 @@ import { AxiosError } from 'axios';
  * @param {SecondParameter<typeof http>} [options] - Configurações adicionais para a requisição HTTP.
  * @param {AbortSignal} [signal] - Sinal para abortar a requisição, se necessário.
  *
- * @returns {Promise<ApiResponse<Pagination<UserDto[]>>>} Promise com a resposta da API contendo os usuários.
+ * @returns {Promise<ApiResponse<Pagination<User[]>>>} Promise com a resposta da API contendo os usuários.
  */
 
 const getAllUsers = (
@@ -40,7 +40,7 @@ const getAllUsers = (
   signal?: AbortSignal,
 ) => {
   console.log('order', order);
-  return http<ApiResponse<Pagination<UserDto[]>>>(
+  return http<ApiResponse<Pagination<User[]>>>(
     {
       url: `/users`,
       method: 'GET',

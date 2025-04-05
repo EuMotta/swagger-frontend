@@ -14,10 +14,10 @@ import {
   getGetUserByEmailQueryKey,
   useUpdateUserStatus,
 } from '@/http/generated/api';
-import { UserDto } from '@/http/generated/api.schemas';
+import { User } from '@/http/generated/api.schemas';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-const UpdateStatus = ({ user }: { user: UserDto }) => {
+const UpdateStatus = ({ user }: { user: User }) => {
   const updateStatus = useUpdateUserStatus();
   const queryClient = useQueryClient();
   const onUpdate = async () => {

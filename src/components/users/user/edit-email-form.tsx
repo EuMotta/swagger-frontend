@@ -3,7 +3,6 @@ import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 
-import { editUserEmailBody } from '@/@interfaces/zod/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -11,7 +10,8 @@ import {
   useUpdateUserEmail,
   useVerifyUserEmail,
 } from '@/http/generated/api';
-import { UpdateUserEmailResponse, UserDto } from '@/http/generated/api.schemas';
+import { UpdateUserEmailResponse, User } from '@/http/generated/api.schemas';
+import { updateUserByEmailBody } from '@/http/generated/schemas/users/users.zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -24,9 +24,9 @@ import {
   FormMessage,
 } from '../../ui/form';
 
-const EditUserEmail = ({ user }: { user: UserDto }) => {
+const EditUserEmail = ({ user }: { user: User }) => {
   const form = useForm<UpdateUserEmailResponse>({
-    resolver: zodResolver(editUserEmailBody),
+    resolver: zodResolver(updateUserByEmailBody),
     defaultValues: {
       email: user.email ?? '',
     },

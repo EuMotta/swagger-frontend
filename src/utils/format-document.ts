@@ -14,6 +14,7 @@
  * // Retorna "12.345.678/0001-99"
  * formatDocument("12345678000199", "CNPJ");
  */
+
 export const formatDocument = (document: string, type: 'CPF' | 'CNPJ') => {
   if (type === 'CPF') {
     return document.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');

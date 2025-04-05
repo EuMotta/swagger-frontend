@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { CardContent, CardHeader } from '@/components/ui/card';
 
 interface ResponseProps {
   image: string;
@@ -29,8 +29,8 @@ export const Response: React.FC<ResponseProps> = ({
   onButtonClick,
 }) => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="max-w-md w-full !border-none !shadow-none">
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="max-w-md w-full !border-none !shadow-none">
         <CardHeader className="text-center space-y-3 p-6">
           <img
             src={image}
@@ -47,7 +47,7 @@ export const Response: React.FC<ResponseProps> = ({
             </Button>
           </CardContent>
         )}
-      </Card>
+      </div>
     </div>
   );
 };
@@ -76,8 +76,8 @@ export const LoadingResponse: React.FC<LoadingResponseProps> = ({
   }, [secondaryImage, secondaryDescription]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="max-w-md w-full !border-none !shadow-none">
+    <div className="flex min-h-screen items-center justify-center  p-4">
+      <div className="max-w-md w-full !border-none !shadow-none">
         <CardHeader className="text-center space-y-3 p-6">
           <img
             src={currentImage}
@@ -87,7 +87,7 @@ export const LoadingResponse: React.FC<LoadingResponseProps> = ({
           <h1 className="text-3xl font-bold">{title}</h1>
           <p className="text-muted-foreground">{currentDescription}</p>
         </CardHeader>
-      </Card>
+      </div>
     </div>
   );
 };

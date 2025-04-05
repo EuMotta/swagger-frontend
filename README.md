@@ -39,23 +39,28 @@
 
 ## 🚀 Funcionalidades Principais
 
-✅ **Gerenciamento Completo de Tarefas**  
-   - Criar, editar e excluir tarefas.  
-   - Atualizar o status das tarefas.  
+✅ **Gerenciamento Completo de Tarefas**
 
-✅ **Autenticação com NextAuth**  
-   - Login seguro com NextAuth.  
+- Criar, editar e excluir tarefas.
+- Atualizar o status das tarefas.
 
-✅ **Pesquisa e Filtros**  
-   - Filtrar tarefas por status (pendente, em andamento, concluída).  
-   - Buscar tarefas por palavras-chave.  
+✅ **Autenticação com NextAuth**
 
-✅ **Interface Intuitiva e Responsiva**  
-   - Design moderno usando **Tailwind CSS**.  
-   - Compatível com dispositivos móveis.  
+- Login seguro com NextAuth.
 
-✅ **Notificações em Tempo Real**  
-   - Feedback visual para ações (ex.: sucesso, erro, carregamento) com **sonner**.
+✅ **Pesquisa e Filtros**
+
+- Filtrar tarefas por status (pendente, em andamento, concluída).
+- Buscar tarefas por palavras-chave.
+
+✅ **Interface Intuitiva e Responsiva**
+
+- Design moderno usando **Tailwind CSS**.
+- Compatível com dispositivos móveis.
+
+✅ **Notificações em Tempo Real**
+
+- Feedback visual para ações (ex.: sucesso, erro, carregamento) com **sonner**.
 
 <p align="right">(<a href="#readme-top">Voltar ao topo</a>)</p>
 
@@ -105,8 +110,8 @@ Este projeto foi desenvolvido com as seguintes tecnologias principais:
 
 ## 📚 Documentação Inline
 
-Todo o código possui **documentação inline**  para facilitar a compreensão e manutenção.  
-Exemplo de documentação em um hook:  
+Todo o código possui **documentação inline** para facilitar a compreensão e manutenção.  
+Exemplo de documentação em um hook:
 
 ```typescript
 /**
@@ -120,7 +125,7 @@ Exemplo de documentação em um hook:
  */
 export function useGetTasks(page: number, limit: number, status?: string) {
   return useQuery(['tasks', page, status], () =>
-    fetchTasks(page, limit, status)
+    fetchTasks(page, limit, status),
   );
 }
 ```
@@ -137,12 +142,14 @@ export function useGetTasks(page: number, limit: number, status?: string) {
 ### 🔨 Passos para rodar localmente:
 
 1. **Clone o repositório:**
+
    ```bash
    git clone https://github.com/EuMotta/swagger-frontend.git
    cd swagger-frontend
    ```
 
 2. **Instale as dependências:**
+
    ```bash
    npm install
    # ou
@@ -159,6 +166,7 @@ export function useGetTasks(page: number, limit: number, status?: string) {
    ```
 
 4. **Execute o projeto em modo de desenvolvimento:**
+
    ```bash
    npm run dev
    # ou
@@ -203,9 +211,9 @@ Link do projeto: [https://github.com/EuMotta/swagger-frontend](https://github.co
     <div>🚀 Obrigado por conferir este projeto!</div>
 </h1>
 
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555  
-[linkedin-url]: https://linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/  
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white  
-[Next-url]: https://nextjs.org/  
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB  
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/jos%C3%A9-antonio-bueno-motta-61006a26b/
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://react.dev/

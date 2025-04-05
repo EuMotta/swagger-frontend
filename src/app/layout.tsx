@@ -2,12 +2,16 @@ import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 
 import { Toaster } from '@/components/ui/sonner';
 import Providers from '@/providers';
-import NextTopLoader from 'nextjs-toploader';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   title: 'Home',

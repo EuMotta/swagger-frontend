@@ -6,13 +6,13 @@ import {
   TabsVerticalList,
   TabsVerticalTrigger,
 } from '@/components/ui/tabs-vertical';
-import { UserDto } from '@/http/generated/api.schemas';
+import { User } from '@/http/generated/api.schemas';
 
 import EditUserEmail from './edit-email-form';
 import EditUserGeneral from './edit-general-form';
 import EditUserPassword from './edit-password-form';
 
-const EditProfile = ({ user }: { user: UserDto }) => {
+const EditProfile = ({ user }: { user: User }) => {
   return (
     <div>
       <TabsVertical
